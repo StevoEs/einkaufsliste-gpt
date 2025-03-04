@@ -10,6 +10,11 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
    npm install
    ```
 
+## React Native Expo - Abhängigkeiten instalation
+
+## npm install react-native-reanimated react-native-gesture-handler @react-native-async-storage/async-storage uuid @expo/vector-icons
+
+
 2. Start the app
 
    ```bash
