@@ -1,32 +1,25 @@
-import { registerRootComponent } from 'expo';
-import { useEffect } from 'react';
-import { View, StyleSheet } from 'react-native';
-import * as SplashScreen from 'expo-splash-screen';
-import App from '../App';
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { Redirect } from 'expo-router';
 
-// Splash Screen verhindern, bis die App geladen ist
-SplashScreen.preventAutoHideAsync();
-
-function Main() {
-  useEffect(() => {
-    const hideSplash = async () => {
-      await SplashScreen.hideAsync();
-    };
-    
-    hideSplash();
-  }, []);
-
-  return (
-    <View style={styles.container}>
-      <App />
-    </View>
-  );
+export default function Index() {
+  return <Redirect href="/(tabs)/home" />;
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+  },
+  headline: {
+    fontSize: 20,
+  },
+  link: {
+    color: 'white',
+    backgroundColor: 'blue',
+    fontSize: 16,
+    padding: 16,
   },
 });
-
-registerRootComponent(Main);

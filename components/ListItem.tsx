@@ -2,24 +2,18 @@ import React from 'react';
 import { StyleSheet, Text, View, Dimensions } from 'react-native';
 import Animated, { useSharedValue, useAnimatedStyle, withTiming, runOnJS } from 'react-native-reanimated';
 import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
-import { Ionicons } from '@expo/vector-icons'; // Alternativ: eine andere Icon-Bibliothek
+import { Ionicons } from '@expo/vector-icons';
+import { Produkt } from '../src/types'; // Passe den Pfad an
 
-export interface ListItemType {
-  id: string;
-  name: string;
-  price: number;
-  quantity: number;
-}
+const ITEM_HEIGHT = 70;
+const SWIPE_THRESHOLD = 100;
 
 interface ListItemProps {
-  item: ListItemType;
+  item: Produkt; // Verwende den korrekten Typ Produkt
   index: number;
   onDelete: (id: string) => void;
   onSort: (fromIndex: number, toIndex: number) => void;
 }
-
-const ITEM_HEIGHT = 70;
-const SWIPE_THRESHOLD = 100;
 
 const ListItem: React.FC<ListItemProps> = ({ item, index, onDelete, onSort }) => {
   const translateX = useSharedValue(0);
@@ -69,19 +63,24 @@ const ListItem: React.FC<ListItemProps> = ({ item, index, onDelete, onSort }) =>
     <GestureHandlerRootView>
       <GestureDetector gesture={swipeGesture}>
         <Animated.View style={[styles.itemContainer, animatedSwipeStyle]}>
+
           <View style={styles.itemContent}>
             <View>
-              <Text style={styles.itemText}>{item.name}</Text>
+              
+              <Text style={styles.itemText}>{item.quantity}x {item.name}</Text>
               <Text style={styles.itemSubText}>
-                Preis: {item.price} | Menge: {item.quantity}
+                Preis: {item.price}
               </Text>
             </View>
+
             <GestureDetector gesture={dragGesture}>
               <Animated.View style={[styles.iconContainer, animatedDragStyle]}>
                 <Ionicons name="reorder-three" size={24} color="gray" />
               </Animated.View>
             </GestureDetector>
+
           </View>
+
         </Animated.View>
       </GestureDetector>
     </GestureHandlerRootView>
