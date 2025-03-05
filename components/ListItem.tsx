@@ -2,7 +2,24 @@ import { Ionicons } from '@expo/vector-icons';
 import React, { useRef } from 'react';
 import { Animated, TouchableOpacity, View, StyleSheet } from 'react-native';
 
-const ListItem = () => {
+
+// **Definiere das Interface für die Props von ListItem:**
+export interface ListItemProps {
+  item: ListItemType; // item ist vom Typ ListItemType (das Interface, das du vorher definiert hast)
+  index: number;       // index ist eine Zahl
+  onDelete: (id: string) => void; // onDelete ist eine Funktion, die eine id (String) nimmt und void zurückgibt
+  onSort: (fromIndex: number, toIndex: number) => void; // onSort ist eine Funktion, die fromIndex und toIndex (beide Zahlen) nimmt und void zurückgibt
+}
+
+// **Definiere das Interface ListItemType:**
+export interface ListItemType {
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
+}
+
+const ListItem: React.FC<ListItemProps> = (props) => {
   // Animated.Value für die horizontale Bewegung des itemContainers
   const itemContainerTranslateX = useRef(new Animated.Value(0)).current;
   // Animated.Value für die Hintergrundfarbe/Abdunklung des itemContainers
@@ -52,7 +69,7 @@ const ListItem = () => {
     <Animated.View
       style={[
         styles.itemContainer,
-        {
+        { // Animation der horizontalen Bewegung
           transform: [{ translateX: itemContainerTranslateX }], // Animation der horizontalen Bewegung
           backgroundColor: backgroundColorAnim.interpolate({ // Animation der Hintergrundfarbe (Abdunklung)
             inputRange: [0, 1], // Input-Werte für Animated.Value (0 = abgedunkelt, 1 = normal)

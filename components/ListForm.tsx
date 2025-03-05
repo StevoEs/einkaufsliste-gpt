@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet, Keyboard } from 'react-native';
 import { v4 as uuidv4 } from 'uuid';
-import { ListItemType } from './ListItem';
+import { ListItemType } from './ListItem'; // Achte auf die geschweiften Klammern!
 
 interface ListFormProps {
   onAddItem: (item: ListItemType) => void;
