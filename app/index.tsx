@@ -1,5 +1,4 @@
-import { registerRootComponent } from 'expo';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
 import App from '../App';
@@ -12,7 +11,7 @@ function Main() {
     const hideSplash = async () => {
       await SplashScreen.hideAsync();
     };
-    
+
     hideSplash();
   }, []);
 
@@ -29,4 +28,7 @@ const styles = StyleSheet.create({
   },
 });
 
-registerRootComponent(Main);
+export default Main; // **Behalte den Default Export von Main**
+// **Entferne oder kommentiere diese Zeile aus:**
+// import { registerRootComponent } from 'expo-router';
+// registerRootComponent(Main);

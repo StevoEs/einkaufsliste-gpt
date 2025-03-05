@@ -3,6 +3,7 @@ import { View, FlatList, StyleSheet, SafeAreaView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ListItem, { ListItemType } from './components/ListItem';
 import ListForm from './components/ListForm';
+import TotalSum from './components/TotalSum';
 
 const STORAGE_KEY = 'LIST_ITEMS';
 
@@ -76,6 +77,8 @@ const App = () => {
         keyExtractor={(item) => item.id}
         renderItem={renderItem}
       />
+      {/* // Muss noch implementiert werden. */}
+      {/* <TotalSum produkte={ListItem} /> */}
     </SafeAreaView>
   );
 };
