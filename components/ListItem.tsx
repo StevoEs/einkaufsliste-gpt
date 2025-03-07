@@ -1,151 +1,91 @@
-import React, { useRef, useState } from 'react';
+import React from 'react';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { Swipeable } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
-import Checkbox from 'expo-checkbox';
-import { Animated, TouchableOpacity, Text, View, StyleSheet } from 'react-native';
+import { RenderItemParams } from 'react-native-draggable-flatlist';
 
 
-// **Definiere das Interface für die Props von ListItem:**
-export interface ListItemProps {
-  item: ListItemType; // item ist vom Typ ListItemType (das Interface, das du vorher definiert hast)
-  index: number;       // index ist eine Zahl
-  onDelete: (id: string) => void; // onDelete ist eine Funktion, die eine id (String) nimmt und void zurückgibt
-  onSort: (fromIndex: number, toIndex: number) => void; // onSort ist eine Funktion, die fromIndex und toIndex (beide Zahlen) nimmt und void zurückgibt
-}
 
-// **Definiere das Interface ListItemType:**
-export interface ListItemType {
+
+export interface ListItemType { 
   id: string;
   name: string;
   price: number;
   quantity: number;
 }
 
-const ListItem: React.FC<ListItemProps> = (props) => {
-  // Animated.Value für die horizontale Bewegung des itemContainers
-  const itemContainerTranslateX = useRef(new Animated.Value(0)).current;
-  // Animated.Value für die Hintergrundfarbe/Abdunklung des itemContainers
-  const backgroundColorAnim = useRef(new Animated.Value(1)).current;
+// Wir übernehmen nur die benötigten Props aus RenderItemParams
+export interface ListItemProps extends Pick<RenderItemParams<ListItemType>, 'item' | 'drag' | 'isActive'> {
+  onDelete: (id: string) => void;
+}
 
-  // Checkbox
-  const [isChecked, setIsChecked] = useState(false);
-
-  // Produkt Summen berechnung
-  const productSumme = Number(props.item.price) * Number(props.item.quantity);
-
-  const handleSortPress = () => {
-    Animated.parallel([
-      // 1. Animation für den itemContainer: Horizontale Bewegung
-      Animated.timing(itemContainerTranslateX, {
-        toValue: 50, // Beispielwert: Bewegung um 50 Punkte nach rechts
-        duration: 300, // Animationsdauer in Millisekunden
-        useNativeDriver: true, // Performance-Optimierung für Transformationen (Bewegung)
-      }),
-      // 2. Animation für den itemContainer: Abdunklung der Hintergrundfarbe
-      Animated.timing(backgroundColorAnim, {
-        toValue: 0, // Zielwert für "abgedunkelten" Zustand (gemäß inputRange in interpolate)
-        duration: 300,
-        useNativeDriver: false, // backgroundColor unterstützt Native Driver nicht immer zuverlässig
-      }),
-      // 3. (Optional) Hier könnten Sie eine bestehende Icon-Animation hinzufügen, falls vorhanden
-      //     Beispiel: Animated.timing(iconDrehung, { ... }),
-    ]).start(() => {
-      // **WICHTIG:** Animation ist abgeschlossen. Hier können Sie Ihre Sortierlogik ausführen!
-      console.log("Sortier-Animation abgeschlossen - Hier Sortierlogik einfügen!");
-      // Führen Sie hier Ihre Sortierfunktion aus, um die Liste neu zu sortieren.
-      // z.B.  props.onSortItem(item.id);  oder ähnliches, abhängig von Ihrer App-Architektur.
-
-
-      // Reset-Animationen, um den itemContainer und ggf. das Icon in den Normalzustand zurückzuführen
-      Animated.parallel([
-        Animated.timing(itemContainerTranslateX, {
-          toValue: 0, // Zurück zur Ausgangsposition (keine Bewegung)
-          duration: 300,
-          useNativeDriver: true,
-        }),
-        Animated.timing(backgroundColorAnim, {
-          toValue: 1, // Zurück zum normalen Farbton (nicht abgedunkelt)
-          duration: 300,
-          useNativeDriver: false,
-        }),
-        // (Optional) Reset der Icon-Animation, falls vorhanden (z.B. Icon-Drehung zurücksetzen)
-      ]).start();
-    });
-  };
-
+const ListItem: React.FC<ListItemProps> = ({ item, drag, isActive, onDelete }) => {
+  const renderSwipeableContent = () => (
+    <View style={styles.actionContainer}>
+      <Text style={styles.actionText}>Löschen</Text>
+    </View>
+  );
+  const gesamtPreis = (item.quantity * item.price).toFixed(2);
   return (
-    <Animated.View
-      style={[
-        styles.itemContainer,
-        { // Animation der horizontalen Bewegung
-          transform: [{ translateX: itemContainerTranslateX }], // Animation der horizontalen Bewegung
-          backgroundColor: backgroundColorAnim.interpolate({ // Animation der Hintergrundfarbe (Abdunklung)
-            inputRange: [0, 1], // Input-Werte für Animated.Value (0 = abgedunkelt, 1 = normal)
-            outputRange: ['rgba(0,0,0,0.2)', 'rgba(255,255,255,1)'], // Output-Farbbereich: von leicht grau (abgedunkelt) zu weiß (normal)
-            // **Anpassen:** Farben und Alpha-Werte hier nach Ihrem gewünschten Design ändern!
-          }),
-        },
-      ]}
+    <Swipeable
+      renderLeftActions={renderSwipeableContent}
+      renderRightActions={renderSwipeableContent}
+      onSwipeableOpen={() => onDelete(item.id)}
     >
-      <View style={styles.content}>
-        {/* Hier könnte der Inhalt Ihres Listenelements stehen, z.B. Text, Checkbox usw. */}
-        <Checkbox 
-          value={isChecked}
-          onValueChange={setIsChecked}
-          style={styles.checkbox}
-        />
-        {/* Beginn Checkbox Text Style */}
-        <Text style={[styles.itemText, isChecked && styles.checked]}>
-          <Text style={styles.itemText}>{props.item.quantity}x {props.item.name}</Text>
-        </Text>
-        {/* Ende Checkbox Text Style */}
-        <Text style={styles.itemSubText}>
-          Preis: {props.item.price}€ | Gesamt: {productSumme}€
-        </Text>
-      </View>
-      <TouchableOpacity style={styles.iconContainer} onPress={handleSortPress}>
-        {<Ionicons style={styles.sortIcon} name="reorder-three" size={24} color="gray" />}
+      <TouchableOpacity
+        onLongPress={drag}
+        disabled={isActive}
+        style={[
+          styles.itemContainer,
+          { backgroundColor: isActive ? '#e0e0e0' : 'white' },
+        ]}
+      >
+        <View style={styles.textContainer}>
+          <Text style={styles.itemText}>{item.quantity}x {item.name}</Text>
+          <Text style={styles.itemSubText}>
+            Preis: {item.price} € | Gesamtpreis: <Text style={{ fontWeight: 'bold' }}>{gesamtPreis} €</Text>
+          </Text>
+        </View>
+        <TouchableOpacity onPress={drag}>
+          <Ionicons name="reorder-three" size={24} color="gray" />
+        </TouchableOpacity>
       </TouchableOpacity>
-    </Animated.View>
+    </Swipeable>
   );
 };
 
 const styles = StyleSheet.create({
   itemContainer: {
-    backgroundColor: 'white', // Standard Hintergrundfarbe des Containers
     padding: 15,
+    marginBottom: 10,
     borderRadius: 8,
-    flexDirection: 'row', // Inhalt horizontal anordnen (für Icon rechts)
-    alignItems: 'center', // Inhalt vertikal zentrieren
-    elevation: 2, // Leichter Schatten für bessere Abhebung
+    flexDirection: 'row',
+    alignItems: 'center',
+    elevation: 2,
+    justifyContent: 'space-between',
   },
-  content: {
-    flex: 1, // Nimmt den verfügbaren Platz ein (alles außer Icon)
-    marginRight: 10, // Abstand zum Icon
+  textContainer: {
+    flex: 1,
+    marginRight: 10,
   },
-  iconContainer: {
-    padding: 8, // Padding um das Icon herum für bessere Touch-Fläche
-  },
-  sortIcon: {
-    width: 25, // Breite des Icons
-    height: 25, // Höhe des Icons
-    borderRadius: 12.5, // Abgerundete Ecken für ein kreisförmiges Icon (optional)
-    // **Anpassen:** Ersetzen Sie dies durch Ihr tatsächliches Icon (z.B. Image oder Vector Icon)
-  },
-  // **Stelle sicher, dass diese Styles GENAU so definiert sind:**
-  itemText: { // <-- itemText Style
+  itemText: {
     fontSize: 16,
   },
-  itemSubText: { // <-- itemSubText Style
+  itemSubText: {
     fontSize: 12,
     color: 'gray',
   },
-  checkbox: {
-    marginRight: 10,
+  actionContainer: {
+    backgroundColor: 'red',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 80,
+    height: '100%',
   },
-  checked: {
-    textDecorationLine: 'line-through',
-    color: 'gray',
+  actionText: {
+    color: 'white',
+    fontWeight: 'bold',
   },
 });
 
-export default ListItem;
+export default React.memo(ListItem);

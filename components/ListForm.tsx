@@ -1,30 +1,27 @@
-// components/ListForm.tsx
 import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet, Keyboard } from 'react-native';
-import { v4 as uuidv4 } from 'uuid';
-import { ListItemType } from './ListItem'; // Achte auf die geschweiften Klammern!
+import uuid from 'react-native-uuid';
+import { ListItemType } from './ListItem';
+
 
 interface ListFormProps {
   onAddItem: (item: ListItemType) => void;
 }
 
 const ListForm: React.FC<ListFormProps> = ({ onAddItem }) => {
-  // Zustände für die Input-Felder
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
   const [quantity, setQuantity] = useState('');
 
-  // Beim Absenden: Neues Element erstellen und an den Parent übergeben
   const handleSubmit = () => {
     if (!name || !price || !quantity) return;
     const newItem: ListItemType = {
-      id: uuidv4(),
+      id: uuid.v4(),
       name,
       price: parseFloat(price),
       quantity: parseInt(quantity, 10),
     };
     onAddItem(newItem);
-    // Input-Felder zurücksetzen
     setName('');
     setPrice('');
     setQuantity('');
