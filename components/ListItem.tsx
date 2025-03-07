@@ -4,9 +4,6 @@ import { Swipeable } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
 import { RenderItemParams } from 'react-native-draggable-flatlist';
 
-
-
-
 export interface ListItemType { 
   id: string;
   name: string;
@@ -14,8 +11,10 @@ export interface ListItemType {
   quantity: number;
 }
 
-// Wir übernehmen nur die benötigten Props aus RenderItemParams
-export interface ListItemProps extends Pick<RenderItemParams<ListItemType>, 'item' | 'drag' | 'isActive'> {
+export interface ListItemProps {
+  item: ListItemType;
+  drag: () => void;
+  isActive: boolean;
   onDelete: (id: string) => void;
 }
 
@@ -25,7 +24,14 @@ const ListItem: React.FC<ListItemProps> = ({ item, drag, isActive, onDelete }) =
       <Text style={styles.actionText}>Löschen</Text>
     </View>
   );
+
   const gesamtPreis = (item.quantity * item.price).toFixed(2);
+
+/* export interface ListItemProps extends Pick<RenderItemParams<ListItemType>, 'item' | 'drag' | 'isActive'> {
+  onDelete: (id: string) => void;
+} */
+
+
   return (
     <Swipeable
       renderLeftActions={renderSwipeableContent}
@@ -46,9 +52,7 @@ const ListItem: React.FC<ListItemProps> = ({ item, drag, isActive, onDelete }) =
             Preis: {item.price} € | Gesamtpreis: <Text style={{ fontWeight: 'bold' }}>{gesamtPreis} €</Text>
           </Text>
         </View>
-        <TouchableOpacity onPress={drag}>
           <Ionicons name="reorder-three" size={24} color="gray" />
-        </TouchableOpacity>
       </TouchableOpacity>
     </Swipeable>
   );

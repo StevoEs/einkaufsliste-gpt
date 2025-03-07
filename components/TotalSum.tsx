@@ -4,7 +4,7 @@ import { ListItemType } from './ListItem';
 
 
 interface TotalSumProps {
-  produkte: (ListItemType | null)[];
+  produkte: ListItemType[];
 }
 
 const TotalSum: React.FC<TotalSumProps> = ({ produkte }) => {

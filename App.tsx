@@ -68,7 +68,7 @@ export default function App() {
           keyExtractor={(item) => item.id}
           renderItem={renderItem}
           onDragEnd={({ data }) => setData(data)}
-          activationDistance={10} // optional
+          activationDistance={5} // optional
 
         />
       <View style={styles.totalSumContainer}>
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     padding: 16, 
-    backgroundColor: '#f0f0f0', 
+    backgroundColor: 'white', 
     alignItems: 'center',
   }
 });

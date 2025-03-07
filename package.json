@@ -1,7 +1,7 @@
 {
   "name": "einkaufsliste-gpt",
   "main": "expo-router/entry",
-  "version": "0.0.1",
+  "version": "0.9.0",
   "scripts": {
     "start": "expo start",
     "reset-project": "node ./scripts/reset-project.js",
@@ -42,7 +42,8 @@
     "react-native-screens": "~4.4.0",
     "react-native-uuid": "^2.0.3",
     "react-native-web": "~0.19.13",
-    "react-native-webview": "13.12.5"
+    "react-native-webview": "13.12.5",
+    "expo-dev-client": "~5.0.12"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
