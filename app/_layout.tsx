@@ -2,6 +2,7 @@ import { Stack } from "expo-router";
 import { useEffect } from "react";
 import * as SplashScreen from "expo-splash-screen";
 
+// Verhindere automatisches Ausblenden
 SplashScreen.preventAutoHideAsync();
 
 export default function Layout() {
@@ -12,5 +13,5 @@ export default function Layout() {
     hideSplash();
   }, []);
 
-  return <Stack />;
+  return <Stack screenOptions={{ headerShown: false }} />;
 }

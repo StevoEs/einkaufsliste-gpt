@@ -1,33 +1,64 @@
+// app.config.js
 module.exports = {
-    name: 'Einkaufsliste',  // Der Name deiner App
-    version: '0.9.0',  // Die Version deiner App
-    slug: 'einkaufsliste',  // Ein eindeutiger Slug für deine App (verwendet in URLs)
-    orientation: 'portrait',  // Die Ausrichtung der App ('portrait', 'landscape' oder 'default')
-    icon: './assets/images/icon.png',  // Pfad zum App-Icon (72x72px oder größer)
+  expo: {
+    name: 'Einkaufsliste',
+    version: '0.9.0',
+    slug: 'einkaufsliste',
+    orientation: 'portrait',
+    icon: './assets/images/icon.png',
+    scheme: 'myapp', // Für Deep Linking und Linking-Warnungen wichtig
     splash: {
-      image: './assets/images/splash-icon.png',  // Pfad zum Splash-Screen-Bild
-      resizeMode: 'contain',  // Wie das Bild skaliert wird ('contain', 'cover', etc.)
-      backgroundColor: '#ffffff',  // Hintergrundfarbe des Splash-Screens
+      image: './assets/images/splash-icon.png',
+      resizeMode: 'contain',
+      backgroundColor: '#ffffff',
     },
     updates: {
-      fallbackToCacheTimeout: 0,  // Zeit in ms, nach der auf den Cache zurückgegriffen wird
+      fallbackToCacheTimeout: 0,
     },
-    assetBundlePatterns: ['**/*'],  // Muster für zu bündelnde Assets
+    assetBundlePatterns: ['**/*'],
     ios: {
-      bundleIdentifier: 'com.meineapp',  // Das musst du hinzufügen
+      bundleIdentifier: 'com.meineapp', // Passe diesen Wert ggf. an deinen tatsächlichen Bundle Identifier an
       supportsTablet: true,
     },
     android: {
-      package: 'com.meineapp',  // Der Package-Name für Android (z.B. com.deinname.appname)
-      versionCode: 1,  // Die Versionsnummer für Android
-    },
-    web: {
-      favicon: './assets/images/favicon.png',  // Pfad zum Favicon für die Web-Version
-    },
-    extra: {
-      // Hier kannst du zusätzliche Daten hinzufügen, z.B. API-Schlüssel
-      eas: {
-        projectId: '5077dfd5-b73b-484a-ab6e-bedece986e4a', // Deine Projekt-ID
+      package: 'com.meineapp', // Stelle sicher, dass dieser Package-Name konsistent ist
+      versionCode: 1,
+      adaptiveIcon: {
+        foregroundImage: './assets/images/adaptive-icon.png',
+        backgroundColor: '#ffffff',
       },
     },
-  };
+    web: {
+      favicon: './assets/images/favicon.png',
+      bundler: 'metro',
+      output: 'static',
+    },
+    plugins: [
+      'expo-router',
+      'react-native-reanimated/plugin',
+      [
+        'expo-splash-screen',
+        {
+          image: './assets/images/splash-icon.png',
+          imageWidth: 200,
+          resizeMode: 'contain',
+          backgroundColor: '#ffffff',
+        },
+      ],
+    ],
+    experiments: {
+      typedRoutes: true,
+    },
+    presets: ['babel-preset-expo'],
+    extra: {
+      eas: {
+        projectId: '5077dfd5-b73b-484a-ab6e-bedece986e4a',
+      },
+      splash: {
+        image: './assets/images/splash-icon.png',
+        resizeMode: 'contain',
+        backgroundColor: '#ffffff',
+      },
+    },
+  },
+};

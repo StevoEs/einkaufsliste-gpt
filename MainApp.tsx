@@ -7,10 +7,9 @@ import ListItem, { ListItemType } from './components/ListItem';
 import ListForm from './components/ListForm';
 import TotalSum from './components/TotalSum';
 
-
 const STORAGE_KEY = 'LIST_ITEMS';
 
-export default function App() {
+export default function MainApp() {
   const [data, setData] = useState<ListItemType[]>([]);
 
   useEffect(() => {
@@ -59,7 +58,6 @@ export default function App() {
   );
 
   return (
-    // Hier kommt der GestureHandlerRootView als übergeordneter Container
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaView style={styles.container}>
         <ListForm onAddItem={handleAddItem} />
@@ -68,12 +66,11 @@ export default function App() {
           keyExtractor={(item) => item.id}
           renderItem={renderItem}
           onDragEnd={({ data }) => setData(data)}
-          activationDistance={5} // optional
-
+          activationDistance={5}
         />
-      <View style={styles.totalSumContainer}>
-        <TotalSum produkte={data} />
-      </View>
+        <View style={styles.totalSumContainer}>
+          <TotalSum produkte={data} />
+        </View>
       </SafeAreaView>
     </GestureHandlerRootView>
   );

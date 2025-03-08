@@ -1,23 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import * as SplashScreen from 'expo-splash-screen';
-import App from '../App';
+import MainApp from '../MainApp';
 
-// Splash Screen verhindern, bis die App geladen ist
-SplashScreen.preventAutoHideAsync();
-
-function Main() {
-  useEffect(() => {
-    const hideSplash = async () => {
-      await SplashScreen.hideAsync();
-    };
-
-    hideSplash();
-  }, []);
-
+export default function Index() {
   return (
     <View style={styles.container}>
-      <App />
+      <MainApp />
     </View>
   );
 }
@@ -27,8 +15,3 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
-
-export default Main; // **Behalte den Default Export von Main**
-// **Entferne oder kommentiere diese Zeile aus:**
-// import { registerRootComponent } from 'expo-router';
-// registerRootComponent(Main);
