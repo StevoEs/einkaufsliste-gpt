@@ -100,12 +100,24 @@ const styles = StyleSheet.create({
   },
   totalSumContainer: {
     position: 'absolute',
-    bottom: 0, 
-    left: 0,
+    bottom: 0,  
     right: 0,
+    left: 0,
     padding: 16, 
-    //backgroundColor: 'white', 
-    alignItems: 'center',
+    marginBottom: 10,
+    marginRight: 10,
+    marginLeft: 10,
+    backgroundColor: '#007bff', // Blaue Farbe
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 20, // Rund wie ein Chip
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    elevation: 5,
+    justifyContent: 'center', 
+    alignItems: 'center', 
   }
 });
 

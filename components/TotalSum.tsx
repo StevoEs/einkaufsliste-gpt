@@ -27,10 +27,11 @@ export default TotalSum;
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 10
+
   },
   sumText: {
     fontSize: 18,
     fontWeight: 'bold',
+    color: '#fff',
   }
   })
