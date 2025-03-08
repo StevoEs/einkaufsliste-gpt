@@ -35,7 +35,6 @@ module.exports = {
     },
     plugins: [
       'expo-router',
-      'react-native-reanimated/plugin',
       [
         'expo-splash-screen',
         {
@@ -49,7 +48,6 @@ module.exports = {
     experiments: {
       typedRoutes: true,
     },
-    presets: ['babel-preset-expo'],
     extra: {
       eas: {
         projectId: '5077dfd5-b73b-484a-ab6e-bedece986e4a',
