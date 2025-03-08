@@ -1,7 +1,7 @@
 module.exports = {
     name: 'Einkaufsliste',  // Der Name deiner App
     version: '0.9.0',  // Die Version deiner App
-    slug: 'Eine einfache Einkaufsliste',  // Ein eindeutiger Slug für deine App (verwendet in URLs)
+    slug: 'einkaufsliste',  // Ein eindeutiger Slug für deine App (verwendet in URLs)
     orientation: 'portrait',  // Die Ausrichtung der App ('portrait', 'landscape' oder 'default')
     icon: './assets/images/icon.png',  // Pfad zum App-Icon (72x72px oder größer)
     splash: {
@@ -14,7 +14,8 @@ module.exports = {
     },
     assetBundlePatterns: ['**/*'],  // Muster für zu bündelnde Assets
     ios: {
-      supportsTablet: true,  // Unterstützt iPads
+      bundleIdentifier: 'com.meineapp',  // Das musst du hinzufügen
+      supportsTablet: true,
     },
     android: {
       package: 'com.meineapp',  // Der Package-Name für Android (z.B. com.deinname.appname)
@@ -25,5 +26,8 @@ module.exports = {
     },
     extra: {
       // Hier kannst du zusätzliche Daten hinzufügen, z.B. API-Schlüssel
+      eas: {
+        projectId: '5077dfd5-b73b-484a-ab6e-bedece986e4a', // Deine Projekt-ID
+      },
     },
   };

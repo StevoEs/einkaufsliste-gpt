@@ -1,0 +1,59 @@
+.
+├── android
+│   ├── app
+│   │   ├── build
+│   │   ├── build.gradle
+│   │   ├── debug.keystore
+│   │   ├── proguard-rules.pro
+│   │   └── src
+│   ├── build
+│   │   └── generated
+│   ├── build.gradle
+│   ├── gradle
+│   │   └── wrapper
+│   ├── gradle.properties
+│   ├── gradlew
+│   ├── gradlew.bat
+│   └── settings.gradle
+├── app
+│   ├── index.tsx
+│   └── _layout.tsx
+├── app.config.js
+├── app.json
+├── App.tsx
+├── assets
+│   ├── fonts
+│   │   └── SpaceMono-Regular.ttf
+│   └── images
+│       ├── adaptive-icon.png
+│       ├── favicon.png
+│       ├── icon.png
+│       └── splash-icon.png
+├── babel.config.js
+├── backupfiles
+│   ├── App-backup.tsx
+│   ├── ListForm-Backup.tsx
+│   └── ListItem-Nackup.tsx
+├── baum2.txt
+├── baum.txt
+├── build-1741389020884.aab
+├── components
+│   ├── ListForm.tsx
+│   ├── ListItem.tsx
+│   └── TotalSum.tsx
+├── constants
+│   └── Colors.ts
+├── eas.json
+├── hooks
+│   ├── useColorScheme.ts
+│   ├── useColorScheme.web.ts
+│   └── useThemeColor.ts
+├── metro.config.js
+├── package.json
+├── package-lock.json
+├── README.md
+├── scripts
+│   └── reset-project.js
+└── tsconfig.json
+
+18 directories, 39 files
