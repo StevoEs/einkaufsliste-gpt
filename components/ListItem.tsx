@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Swipeable } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
-import { RenderItemParams } from 'react-native-draggable-flatlist';
+
 
 export interface ListItemType { 
   id: string;
@@ -16,9 +16,10 @@ export interface ListItemProps {
   drag: () => void;
   isActive: boolean;
   onDelete: (id: string) => void;
+  onEdit: (item: ListItemType) => void;
 }
 
-const ListItem: React.FC<ListItemProps> = ({ item, drag, isActive, onDelete }) => {
+const ListItem: React.FC<ListItemProps> = ({ item, drag, isActive, onDelete, onEdit }) => {
   const renderSwipeableContent = () => (
     <View style={styles.actionContainer}>
       <Text style={styles.actionText}>Löschen</Text>
@@ -26,11 +27,6 @@ const ListItem: React.FC<ListItemProps> = ({ item, drag, isActive, onDelete }) =
   );
 
   const gesamtPreis = (item.quantity * item.price).toFixed(2);
-
-/* export interface ListItemProps extends Pick<RenderItemParams<ListItemType>, 'item' | 'drag' | 'isActive'> {
-  onDelete: (id: string) => void;
-} */
-
 
   return (
     <Swipeable
@@ -52,7 +48,9 @@ const ListItem: React.FC<ListItemProps> = ({ item, drag, isActive, onDelete }) =
             Preis: {item.price} € | Gesamtpreis: <Text style={{ fontWeight: 'bold' }}>{gesamtPreis} €</Text>
           </Text>
         </View>
+        <TouchableOpacity onPress={() => onEdit(item)}>
           <Ionicons name="reorder-three" size={24} color="gray" />
+        </TouchableOpacity>
       </TouchableOpacity>
     </Swipeable>
   );

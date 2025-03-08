@@ -29,11 +29,8 @@ const styles = StyleSheet.create({
   container: {
     marginTop: 10
   },
-  gesamtSumme: {
-    fontWeight: 'bold',
-    fontSize: 16
-  },
   sumText: {
-
+    fontSize: 18,
+    fontWeight: 'bold',
   }
   })

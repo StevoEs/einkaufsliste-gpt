@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { SafeAreaView, StyleSheet, View } from 'react-native';
-import { GestureHandlerRootView } from 'react-native-gesture-handler'; 
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DraggableFlatList, { RenderItemParams } from 'react-native-draggable-flatlist';
 import ListItem, { ListItemType } from './components/ListItem';
@@ -11,7 +11,9 @@ const STORAGE_KEY = 'LIST_ITEMS';
 
 export default function MainApp() {
   const [data, setData] = useState<ListItemType[]>([]);
+  const [editingItem, setEditingItem] = useState<ListItemType | null>(null);
 
+  // Laden und Speichern wie gehabt...
   useEffect(() => {
     const loadItems = async () => {
       try {
@@ -41,8 +43,18 @@ export default function MainApp() {
     setData(prev => [item, ...prev]);
   };
 
+  const handleUpdateItem = (updatedItem: ListItemType) => {
+    setData(prev => prev.map(item => (item.id === updatedItem.id ? updatedItem : item)));
+    setEditingItem(null);
+  };
+
   const handleDeleteItem = (id: string) => {
     setData(prev => prev.filter(item => item.id !== id));
+  };
+
+  // Wenn ein Artikel editiert werden soll
+  const handleEditItem = (item: ListItemType) => {
+    setEditingItem(item);
   };
 
   const renderItem = useCallback(
@@ -52,6 +64,7 @@ export default function MainApp() {
         drag={drag}
         isActive={isActive}
         onDelete={handleDeleteItem}
+        onEdit={handleEditItem}
       />
     ),
     [handleDeleteItem]
@@ -60,7 +73,11 @@ export default function MainApp() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaView style={styles.container}>
-        <ListForm onAddItem={handleAddItem} />
+        <ListForm 
+          onAddItem={handleAddItem} 
+          onUpdateItem={handleUpdateItem} 
+          editingItem={editingItem}
+        />
         <DraggableFlatList
           data={data}
           keyExtractor={(item) => item.id}
@@ -87,7 +104,9 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     padding: 16, 
-    backgroundColor: 'white', 
+    //backgroundColor: 'white', 
     alignItems: 'center',
   }
 });
+
+
