@@ -42,7 +42,8 @@ const ListForm: React.FC<ListFormProps> = ({ onAddItem, onUpdateItem, editingIte
       return;
     }
 
-    const parsedPrice = parseFloat(price);
+    const normalizedPrice = price.replace(',', '.');
+    const parsedPrice = parseFloat(normalizedPrice);
     const parsedQuantity = parseInt(quantity, 10);
 
     if (isNaN(parsedPrice) || isNaN(parsedQuantity)) {
@@ -87,7 +88,7 @@ const ListForm: React.FC<ListFormProps> = ({ onAddItem, onUpdateItem, editingIte
       <TextInput
         ref={nameInputRef}
         style={styles.input}
-        placeholder="Name"
+        placeholder="Produkt"
         value={name}
         onChangeText={setName}
         returnKeyType="next"
@@ -120,6 +121,7 @@ const ListForm: React.FC<ListFormProps> = ({ onAddItem, onUpdateItem, editingIte
 
 const styles = StyleSheet.create({
   formContainer: {
+    padding: 16,
     marginBottom: 16,
   },
   input: {
